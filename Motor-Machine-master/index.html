@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+  <head>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="bootstrap3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="bootstrap3.3.7/js/bootstrap.min.js"></script>
+    <script>
+
+   
+     $(document).ready(function() 
+     {
+        $("a#add").on('click', function(e)
+        {
+           $.ajax({
+                    type: "GET",
+                    url:"addmotor.php",
+                    success: function(data)
+                    {
+                      $("#page-wrapper").html(data);
+                    }
+
+                 });
+                     e.preventDefault();
+        });
+      });
+    </script>
+  </head>
+  <body>
+
+   
+        <table style="width:90%">
+            <thead>
+              <tr>
+                <th>Motor Number</th>
+                <th>Turn On Switch</th>
+                <th>Turn Off Switch</th>
+                <th>Current Speed</th>
+                <th>Speed Change</th>
+              </tr>
+            </thead>
+            
+              <?php  
+                  $query2="select * from motor";
+                  $res=mysqli_query($conn,$query2);
+              ?>   
+              <tbody id="page-wrapper">
+                  <?php
+                    while ($row=mysqli_fetch_assoc($res)) 
+                    {
+                  ?>
+                      <tr>
+                                <td><? php echo $row['motorname']; ?></td>
+                                <td><button id="on">ON</button></td>
+                                <td><button id="off">OFF</button></td>
+                                <td><div id="cspeed"><?php echo $row['speed']; ?></div></td>
+                                <td>
+                                  <p>
+                                  
+                                     <button id="schange">
+                                        <span class="glyphicon glyphicon-arrow-up"></span>
+                                     </button>
+                                    <button id="schange">
+                                          <span class="glyphicon glyphicon-arrow-down"></span>
+                                    </button>
+
+                                  </p>
+                                </td>
+                            </tr> 
+
+                  <?php   
+                    }
+                  ?>
+
+             
+         
+            </tbody> 
+       
+        </table>
+        <a id="add">
+          <button id="addmotor">
+              Add a motor
+          </button>
+         </a>
+
+    
+
+
+  </body>
+</html>
